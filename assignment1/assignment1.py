@@ -57,7 +57,7 @@ def calc(calc_num1, calc_num2, calc_num3="multiply"):
     except ZeroDivisionError:
         return "You can't divide by 0!"
     except TypeError:
-        return f"You can't {calc_num3} those values!"
+        return "You can't multiply those values!"
 
 # Task 4: Data Type Conversion
 # Create a function called data_type_conversion. 
