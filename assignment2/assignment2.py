@@ -1,7 +1,6 @@
 
 
 # Task 2: Read a CSV File
-
 # Remember to import the csv module for this task.
 # Create a function called read_employees that has no arguments, and do the following within it.
 # Declare an empty dict. You'll add the key/value pairs to that. Declare also an empty list to store the rows.
@@ -73,74 +72,101 @@ employee_id_column = column_index("employee_id")
 print(employee_id_column)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Task 4: Find the Employee First Name
-# Create a function called first_name.  It takes one argument, the row number.  The function should retrieve the value of first_name from a row as stored in the employees dict.
-
+# Create a function called first_name.  
+# It takes one argument, the row number.  
+# The function should retrieve the value of first_name from a row as stored in the employees dict.
 # You should first call your column_index function to find out what column index you want.
-
 # Then you go to the requested row as stored in the employees dict, and get the value at that index in the row.
-
 # Return the value.
-
 # Try the test again.
 
+
+def first_name(row_number):
+    first_name_column = column_index("first_name")
+    row = employees["rows"][row_number]
+    return row[first_name_column]
+
+
 # Task 5: Find the Employee: a Function in a Function
-# Create a function called employee_find.  This is passed one argument, an integer.  Just call it employee_id in your function declaration. We want it to return the rows with the matching employee_id.  There should only be one, but sometimes a CSV file has bad data.
-
-# We could do this with a loop.  But we are going to use the filter() function.  Inside the employee_find function (yes, you do declare functions inside functions sometimes), create the following employee_match function. Use exactly as written — the tests depend on these function and variable names.
-
+# Create a function called employee_find.  
+# This is passed one argument, an integer.  
+# Just call it employee_id in your function declaration. 
+# We want it to return the rows with the matching employee_id.  
+# There should only be one, but sometimes a CSV file has bad data.
+# We could do this with a loop, but we are going to use the filter() function.  
+# Inside the employee_find function, create the following employee_match function. 
+# Use exactly as written — the tests depend on these function and variable names.
 # def employee_match(row):
 #    return int(row[employee_id_column]) == employee_id
-# This function is referencing the employee_id value that is passed to the employee_find function.  It can access that value because the employee_match function is inside the employee_find function.  Note that we need to do type conversion here, because the CSV reader just returns strings as the values in the rows.  This inner function returns True if there is a match.  We are using the employee_id_column global value you set in Task 3.
-
-# Now, still within the employee_find function, call the filter() function. This is another one of those Python free standing functions. (It is not a method of the list class.) You call filter() as follows:
+# This function is referencing the employee_id value that is passed to the employee_find function.  
+# It can access that value because the employee_match function is inside the employee_find function.  
+# Note that we need to do type conversion here, because the CSV reader just returns strings as the values in the rows.  
+# This inner function returns True if there is a match.  
+# We are using the employee_id_column global value you set in Task 3.
+# Now, still within the employee_find function, call the filter() function. 
+# This is another one of those Python free standing functions. 
+# (It is not a method of the list class.) 
+# You call filter() as follows:
 # matches=list(filter(employee_match, employees["rows"]))
-# The filter() function needs to know how to filter, and the employee_match function provides that information.  The filter() function calls employee_match once per row, saying, Do we want this one?  When the filter function completes, we need to do type conversion to convert the result to a list.
-
+# The filter() function needs to know how to filter, and the employee_match function provides that information.  
+# The filter() function calls employee_match once per row, saying, Do we want this one?  
+# When the filter function completes, we need to do type conversion to convert the result to a list.
 # The employee_find function then returns the matches.
-
 # Run the test and see if you got it right.
 
-# Task 6: Find the Employee with a Lambda
-# The employee_match function is a short one-liner.  Lambdas allow us to give the logic inline.
 
-# Create a function employee_find_2. This function does exactly what employee_find does -- but it uses a lambda. Use exactly as written — the tests depend on these function and variable names.
+def employee_find(employee_id):
+
+    def employee_match(row):
+        return int(row[employee_id_column]) == employee_id
+    
+    matches = list(filter(employee_match, employees["rows"]))
+    return matches
+
+
+# Task 6: Find the Employee with a Lambda
+# The employee_match function is a short one-liner.  
+# Lambdas allow us to give the logic inline.
+# Create a function employee_find_2. 
+# This function does exactly what employee_find does -- but it uses a lambda. 
+# Use exactly as written — the tests depend on these function and variable names.
 # def employee_find_2(employee_id):
 #    matches = list(filter(lambda row : int(row[employee_id_column]) == employee_id , employees["rows"]))
 #    return matches
-# Note that there is no return statement in the lambda.  There is the parameter passed to the lambda (a row), followed by a colon, followed by the expression that gives the result.
-
+# Note that there is no return statement in the lambda.  
+# There is the parameter passed to the lambda (a row), followed by a colon, followed by the expression that gives the result.
 # Run the test to make sure things still work.
+
+
+def employee_find_2(employee_id):
+   matches = list(filter(lambda row : int(row[employee_id_column]) == employee_id , employees["rows"]))
+   return matches
+
+
 # Task 7: Sort the Rows by last_name Using a Lambda
-# We want to call the sort() method on the rows.  However, we need to tell it which column to use for the sort.
-
-# Create a function sort_by_last_name.  It takes no parameters.  You sort the rows you have stored in the dict.
-
-# Within the function, you call employees["rows"].sort().  This sorts the list of rows in place. But, you need pass to the list.sort() method a keyword argument called key (so you pass a parameter with key= when you call it).  You set that keyword parameter equal to a lambda.  The lambda is passed the row, and the expression after the colon gives the value from the row to be used in the sort.  You might want to use your column_index function for last_name so you know which value from the row should be given in the lambda expression.  Remember that the sort() method sorts the list in place and does not return the sorted list.
+# We want to call the sort() method on the rows.  
+# However, we need to tell it which column to use for the sort.
+# Create a function sort_by_last_name.  
+# It takes no parameters.  
+# You sort the rows you have stored in the dict.
+# Within the function, you call employees["rows"].sort().  
+# This sorts the list of rows in place. 
+# But, you need pass to the list.sort() method a keyword argument called key (so you pass a parameter with key= when you call it).  
+# You set that keyword parameter equal to a lambda.  
+# The lambda is passed the row, and the expression after the colon gives the value from the row to be used in the sort.  
+# You might want to use your column_index function for last_name so you know which value from the row should be given in the lambda expression.  
+# Remember that the sort() method sorts the list in place and does not return the sorted list.
 # The sort_by_last_name function returns the sorted list of rows.
-
 # Run the test until this works.
-
 # Call the function in your program, and then print out the employees dict, to see it in sorted form.
+
+
+def sort_by_last_name():
+    last_name_column = column_index("last_name")
+    employees["rows"].sort(key=lambda row: row[last_name_column])
+    return employees["rows"]
+
 
 # Task 8: Create a dict for an Employee
 # Create a function called employee_dict.  It is passed a row from the employees dict (not a row number).  It returns a dict.
