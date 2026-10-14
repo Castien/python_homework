@@ -1,14 +1,7 @@
 
 
 # Task 2: Read a CSV File
-# This task, and the others that follow below, use the same pattern as for assignment1. 
-# This pattern is known as Test Driven Development (TDD).  
-# It is a good practice which is often used in software industry.  
-# You will need to create assignment2.py for the rest of the tasks.
-# Then type the following command:
-# pytest -v -x assignment2-test.py
-# This will give errors to report what you need to fix.  
-# You run it repeatedly as you create the following functions, until all functions are working correctly.
+
 # Remember to import the csv module for this task.
 # Create a function called read_employees that has no arguments, and do the following within it.
 # Declare an empty dict. You'll add the key/value pairs to that. Declare also an empty list to store the rows.
@@ -31,18 +24,73 @@
 # As a result, the assignment2-test.py can reference this global variable too -- and it does.  
 # If you forget to set this variable in your program, the test reports an error.
 
+import csv
+
+def read_employees():
+    employees_dict = {}
+    rows = []
+
+    try:
+        with open("../csv/employees.csv", "r") as file:
+            reader = csv.reader(file)
+
+            for row in reader:
+                if "fields" not in employees_dict:
+                    employees_dict["fields"] = row
+                else:
+                    rows.append(row)
+
+            employees_dict["rows"] = rows
+
+    except Exception as e:
+        print(f"An exception occurred. {type(e).__name__}")
+
+    return employees_dict
+
+employees = read_employees()
+print(employees)
 
 
 # Task 3: Find the Column Index
-# Create a function called column_index. The input is a string. The function looks in employees["fields"] (an array of column headers) to find the index of the column header requested. There won't be much to this function because you use the index() method of the list class. Example — this only shows how index() works; your column_index function must look up whichever column name it is passed, not the literal "first_name":
+# Create a function called column_index. 
+# The input is a string. 
+# The function looks in employees["fields"] (an array of column headers) to find the index of the column header requested. 
+# There won't be much to this function because you use the index() method of the list class. 
+# Example — this only shows how index() works; your column_index function must look up whichever column name it is passed, not the literal "first_name":
 # employees["fields"].index("first_name")
 # The index() method returns the index of the matching value from the list.
-
 # The column_index function should return this index.
-
 # Run the test again to see if the test passes.
+# Call the column_index function in your program, passing the parameter "employee_id".  
+# Store the column you get back in a variable called employee_id_column.  
+# This global value is used for subsequent steps.
 
-# Call the column_index function in your program, passing the parameter "employee_id".  Store the column you get back in a variable called employee_id_column.  This global value is used for subsequent steps.
+
+def column_index(column_name):
+    return employees["fields"].index(column_name)
+
+employee_id_column = column_index("employee_id")
+print(employee_id_column)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Task 4: Find the Employee First Name
 # Create a function called first_name.  It takes one argument, the row number.  The function should retrieve the value of first_name from a row as stored in the employees dict.
