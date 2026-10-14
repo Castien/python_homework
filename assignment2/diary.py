@@ -2,8 +2,6 @@
 
 
 # Task 1: Diary
-# Change to the assignment2 folder of your python_homework folder.  
-# You create your programs for the assignment in this folder.
 # Create a program called diary.py. Add code to do the following:
 # Open a file called diary.txt for appending.
 # In a loop, prompt the user for a line of input. The first prompt should say, "What happened today? ". 
