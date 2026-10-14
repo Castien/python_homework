@@ -1,5 +1,12 @@
 
 
+
+import csv
+import os
+import custom_module
+from datetime import datetime
+
+
 # Task 2: Read a CSV File
 # Remember to import the csv module for this task.
 # Create a function called read_employees that has no arguments, and do the following within it.
@@ -23,7 +30,6 @@
 # As a result, the assignment2-test.py can reference this global variable too -- and it does.  
 # If you forget to set this variable in your program, the test reports an error.
 
-import csv
 
 def read_employees():
     employees_dict = {}
@@ -169,85 +175,240 @@ def sort_by_last_name():
 
 
 # Task 8: Create a dict for an Employee
-# Create a function called employee_dict.  It is passed a row from the employees dict (not a row number).  It returns a dict.
-
+# Create a function called employee_dict.  
+# It is passed a row from the employees dict (not a row number).  
+# It returns a dict.
 # The keys in the dict are the column headers from employees["fields"].
 # The values in the dict are the corresponding values from the row.
 # Do not include the employee_id in the dict. You skip that field for now.
 # Return the resulting dict for the employee.
-
-# Add a line to your program that calls this function and prints the result.  Use a row from the rows stored in the employees dict to pass to the function for this test.
-
+# Add a line to your program that calls this function and prints the result.  
+# Use a row from the rows stored in the employees dict to pass to the function for this test.
 # Get the test working.
 
-# (Optional) If you want to try something extra, look up the zip() function, which can be used to simplify the code for this problem. Using zip() is optional — Task 8 is complete without it.
+# (Optional) If you want to try something extra, look up the zip() function, which can be used to simplify the code for this problem. 
+# Using zip() is optional — Task 8 is complete without it.
+
+
+def employee_dict(row):
+    employee = {}
+
+    for index in range(len(employees["fields"])):
+        field = employees["fields"][index]
+
+        if field != "employee_id":
+            employee[field] = row[index]
+
+    return employee
+
+
 # Task 9: A dict of dicts, for All Employees
 # Create a function called all_employees_dict.
-
 # The keys in the dict are the employee_id values from the rows in the employees dict.
-# For each key, the value is the employee dict created for that row. (Use the employee_dict function you created in task 8.)
+# For each key, the value is the employee dict created for that row. 
+# (Use the employee_dict function you created in task 8.)
 # The function should return the resulting dict of dicts.
-
 # Add a line to your program that calls this function and prints the result.
-
 # Get the test working.
 
+
+def all_employees_dict():
+    all_employees = {}
+
+    for row in employees["rows"]:
+        employee_id = row[employee_id_column]
+        all_employees[employee_id] = employee_dict(row)
+
+    return all_employees
+
+
 # Task 10: Use the os Module
-# Sometimes the behavior of a program is to be modified without changing the program itself.  One way is to use environment variables.  Environment variables are also used to store secrets needed by the program, such as passwords.  You can access the environment via the os.getenv() function.  Note: There are many other functions in the os package.
+# Sometimes the behavior of a program is to be modified without changing the program itself.  
+# One way is to use environment variables.  
+# Environment variables are also used to store secrets needed by the program, such as passwords.  
+# You can access the environment via the os.getenv() function.  
+# Note: There are many other functions in the os package.
 # Within the terminal, enter the command export THISVALUE=ABC.
 # Add a line to assignment2.py to import the os module.
 # Create a function get_this_value().  This function takes no parameters and returns the value of the environment variable THISVALUE.
-# Get the test working.  (Note that each time you want this test to pass, you have to have the THISVALUE environment variable set in your terminal session.)
-# Task 11: Creating Your Own Module
-# In the same folder, create a file called custom_module.py, with the following contents. Use these exactly as written — assignment2.py and the test depend on the name set_secret and the starting value:
-# secret = "shazam!"
+# Get the test working.  
+# (Note that each time you want this test to pass, you have to have the THISVALUE environment variable set in your terminal session.)
 
+
+def get_this_value():
+    return os.getenv("THISVALUE")
+
+
+# Task 11: Creating Your Own Module
+# In the same folder, create a file called custom_module.py, with the following contents. 
+# Use these exactly as written — assignment2.py and the test depend on the name set_secret and the starting value:
+# secret = "shazam!"
 # def set_secret(new_secret):
 #    global secret
 #    secret = new_secret
 # Add the line import custom_module to assignment2.py.
-# Create a function called set_that_secret.  It should accept one parameter, which is the new secret to be set.  It should call custom_module.set_secret(), passing the parameter, so as to set the secret in custom_module.
-
+# Create a function called set_that_secret. 
+#  It should accept one parameter, which is the new secret to be set.  
+# It should call custom_module.set_secret(), passing the parameter, so as to set the secret in custom_module.
 # Add a line to your program to call set_that_secret, passing the new string of your choice.
-
-# In another line, print out custom_module.secret.  Verify that it has the value you expect.
-
+# In another line, print out custom_module.secret.  
+# Verify that it has the value you expect.
 # Run the test until the next part passes.
+
+
+def set_that_secret(new_secret):
+    custom_module.set_secret(new_secret)
+
+set_that_secret("I see weird people.")
+print(custom_module.secret)
+
 
 # Task 12: Read minutes1.csv and minutes2.csv
-# The "story" behind the following list of tasks is as follows.  A club meets, and for each meeting, there is a chairperson.  The club keeps several notebooks that record who was the chairperson on a given date.  Some of the information is in one notebook, some in the other.  The club now wants to combine this information, to get the list of chairpersons sorted by date.  But the information in the csv files contains duplicates and is in no particular order.  (The scenario is simplified, but it mirrors real data analysis tasks.)
+# The "story" behind the following list of tasks is as follows.  
+# A club meets, and for each meeting, there is a chairperson.  
+# The club keeps several notebooks that record who was the chairperson on a given date.  
+# Some of the information is in one notebook, some in the other.  
+# The club now wants to combine this information, to get the list of chairpersons sorted by date.  
+# But the information in the csv files contains duplicates and is in no particular order.  
+# (The scenario is simplified, but it mirrors real data analysis tasks.)
 
-# Create a function called read_minutes.  It takes no parameters.  It creates two dicts, minutes1 and minutes2, by reading ../csv/minutes1.csv and ../csv/minutes2.csv.  Each dict has fields and rows, just as the employees dict had.  However! As you create the list of rows for both minutes1 and minutes2, convert each row to a tuple.  The function should return both minutes1 and minutes2.  Note You can return several values from a Python function, as follows: return v1, v2.  Don't worry about duplicates yet.  They will be dealt with in later tasks.  Think about the DRY (Don't repeat Yourself principle).  You may want to create a helper function to avoid duplicating code.
-# Call the function within your assignment2.py script.  Store the values from the values it returns in the global variables minutes1 and minutes2. Note When a function returns several values, you get them as follows: v1, v2 = function(). Print out those dicts, so that you can see what's stored.
+# Create a function called read_minutes.  
+# It takes no parameters.  
+# It creates two dicts, minutes1 and minutes2, by reading ../csv/minutes1.csv and ../csv/minutes2.csv.  
+# Each dict has fields and rows, just as the employees dict had.  
+# However! As you create the list of rows for both minutes1 and minutes2, convert each row to a tuple.  
+# The function should return both minutes1 and minutes2.  
+# Note You can return several values from a Python function, as follows: return v1, v2.  
+# Don't worry about duplicates yet.  They will be dealt with in later tasks.  
+# Think about the DRY (Don't repeat Yourself principle).  
+# You may want to create a helper function to avoid duplicating code.
+# Call the function within your assignment2.py script.  
+# Store the values from the values it returns in the global variables minutes1 and minutes2. 
+# Note When a function returns several values, you get them as follows: v1, v2 = function(). 
+# Print out those dicts, so that you can see what's stored.
 # Run the test until this part passes.
 
-# Task 13: Create minutes_set
-# Create a function called create_minutes_set.  It takes no parameters. It creates two sets from the rows of minutes1 and minutes2 dicts.  (This is just type conversion.  However, to make it work, each row has to be hashable!  Sets only support hashable elements.  Lists aren't hashable, so that is why you stored the rows as tuples in Task 12.)  Combine the members of both sets into one single set.  (This operation is called a union.)  The function returns the resulting set.
-# Call the function within your assignment2.py script.  Store the value returned in the global variable minutes_set.
 
+# Task 12: Read minutes1.csv and minutes2.csv
+
+def read_minutes():
+    def read_one_minutes(filename):
+        minutes = {}
+        rows = []
+
+        with open(filename, "r") as file:
+            reader = csv.reader(file)
+
+            for row in reader:
+                if "fields" not in minutes:
+                    minutes["fields"] = row
+                else:
+                    rows.append(tuple(row))
+
+        minutes["rows"] = rows
+        return minutes
+
+    minutes1 = read_one_minutes("../csv/minutes1.csv")
+    minutes2 = read_one_minutes("../csv/minutes2.csv")
+
+    return minutes1, minutes2
+
+minutes1, minutes2 = read_minutes()
+
+print(minutes1)
+print(minutes2)
+
+
+# Task 13: Create minutes_set
+# Create a function called create_minutes_set.  
+# It takes no parameters. 
+# It creates two sets from the rows of minutes1 and minutes2 dicts.  
+# (This is just type conversion.  
+# However, to make it work, each row has to be hashable!  
+# Sets only support hashable elements.  
+# Lists aren't hashable, so that is why you stored the rows as tuples in Task 12.)  
+# Combine the members of both sets into one single set.  
+# (This operation is called a union.)  
+# The function returns the resulting set.
+# Call the function within your assignment2.py script.  
+# Store the value returned in the global variable minutes_set.
 # Run the test until the next part passes.
+
+
+def create_minutes_set():
+    minutes1_set = set(minutes1["rows"])
+    minutes2_set = set(minutes2["rows"])
+
+    minutes_set = minutes1_set.union(minutes2_set)
+
+    return minutes_set
+
+minutes_set = create_minutes_set()
+print(minutes_set)
+
 
 # Task 14: Convert to datetime
-# Add a statement, from datetime import datetime, to your program.  The datetime module has some nice capabilities for converting strings to dates.  You can look them up: strptime() and strftime().
-# Create a function called create_minutes_list.  It takes no parameters, and does the following:
-
+# Add a statement, from datetime import datetime, to your program.  
+# The datetime module has some nice capabilities for converting strings to dates.  
+# You can look them up: strptime() and strftime().
+# Create a function called create_minutes_list.  
+# It takes no parameters, and does the following:
 # Create a list from the minutes_set. This is just type conversion.
-# Use the map() function to convert each element of the list. At present, each element is a list of strings, where the first element of that list is the name of the recorder and the second element is the date when they recorded.
-# The map() should covert each of these into a tuple. The first element of the tuple is the name (unchanged). The second element of the tuple is the date string converted to a datetime object.
-# You convert the date strings into datetime objects using datetime.strptime(string, "%B %d, %Y"). Use the format string "%B %d, %Y" exactly as written — it matches the date format stored in the CSV files.
+# Use the map() function to convert each element of the list. 
+# At present, each element is a list of strings, where the first element of that list is the name of the recorder 
+# and the second element is the date when they recorded.
+# The map() should covert each of these into a tuple. 
+# The first element of the tuple is the name (unchanged). 
+# The second element of the tuple is the date string converted to a datetime object.
+# You convert the date strings into datetime objects using datetime.strptime(string, "%B %d, %Y"). 
+# Use the format string "%B %d, %Y" exactly as written — it matches the date format stored in the CSV files.
 # So, you could use the following lambda: lambda x: (x[0], datetime.strptime(x[1], "%B %d, %Y"))
 # The function should return the resulting list.
-# Call the function from within your program.  Store the return value in the minutes_list global.  Print it out, so you can see what it looks like.
-
+# Call the function from within your program.  
+# Store the return value in the minutes_list global.  
+# Print it out, so you can see what it looks like.
 # Run the test until the next part passes.
 
+
+def create_minutes_list():
+    minutes_list = list(minutes_set)
+
+    minutes_list = list(map(lambda x: (x[0], datetime.strptime(x[1], "%B %d, %Y")), minutes_list))
+    return minutes_list
+
+minutes_list = create_minutes_list()
+print(minutes_list)
+
+
 # Task 15: Write Out Sorted List
-# Create a function called write_sorted_list.  It takes no parameters.  It should do the following:
-
+# Create a function called write_sorted_list.  
+# It takes no parameters.  
+# It should do the following:
 # Sort minutes_list in ascending order of datetime.
-# Call map again to convert the list. In this case, for each tuple, you create a new tuple. The first element of the tuple is the name (unchanged). The second element of the tuple is the datetime converted back to a string, using datetime.strftime(date, "%B %d, %Y")
-# Open a file called ./minutes.csv. Use a csv.writer to write out the resulting sorted data. The first row you write should be the value of fields the from minutes1 dict. The subsequent rows should be the elements from minutes_list.
+# Call map again to convert the list. 
+# In this case, for each tuple, you create a new tuple. 
+# The first element of the tuple is the name (unchanged). 
+# The second element of the tuple is the datetime converted back to a string, using datetime.strftime(date, "%B %d, %Y")
+# Open a file called ./minutes.csv. 
+# Use a csv.writer to write out the resulting sorted data. 
+# The first row you write should be the value of fields the from minutes1 dict. 
+# The subsequent rows should be the elements from minutes_list.
 # The function should return the converted list.
-# Call this function from within your program.  Then check that the file is created, and that it contains appropriate content.
-
+# Call this function from within your program.  
+# Then check that the file is created, and that it contains appropriate content.
 # Run the test again until the next test has passed.
+
+
+def write_sorted_list():
+    minutes_list.sort(key=lambda x: x[1])
+
+    converted_list = list(map(lambda x: (x[0], datetime.strftime(x[1], "%B %d, %Y")), minutes_list))
+
+    with open("./minutes.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(minutes1["fields"])
+        writer.writerows(converted_list)
+
+    return converted_list
+
+print(write_sorted_list())
