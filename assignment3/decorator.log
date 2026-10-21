@@ -1,0 +1,24 @@
+function: say_hello
+positional parameters: none
+keyword parameters: none
+return: None
+function: return_true
+positional parameters: (1, 13, 26)
+keyword parameters: none
+return: True
+function: return_decorator
+positional parameters: none
+keyword parameters: {'name': 'Eileen', 'age': 43}
+return: <function logger_decorator at 0x00000194AE3B7740>
+function: say_hello
+positional parameters: none
+keyword parameters: none
+return: None
+function: return_true
+positional parameters: (1, 13, 26)
+keyword parameters: none
+return: True
+function: return_decorator
+positional parameters: none
+keyword parameters: {'name': 'Eileen', 'age': 43}
+return: <function logger_decorator at 0x000001ACDA417740>
