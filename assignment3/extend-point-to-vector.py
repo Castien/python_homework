@@ -44,17 +44,22 @@ class Vector(Point):
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y)
 
+# testing point
 point1 = Point(2, 3)
-point2 = Point(5, 7)
+point2 = Point(2, 3)
+point3 = Point(5, 7)
 
 print(point1)
 print(point1 == point2)
-print(point1.distance(point2))
+print(point1.distance(point3))
 
+# testing vector
 vector1 = Vector(2, 3)
 vector2 = Vector(4, 5)
 
 print(vector1)
+print(vector1 == vector2)
+print(vector1.distance(vector2))
 print(vector1 + vector2)
 
 
