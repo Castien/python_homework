@@ -52,3 +52,45 @@ print(task1_older)
 
 # Save the DataFrame as a CSV file:
 task1_older.to_csv("employees.csv", index=False)
+
+
+# Task 2: Loading Data from CSV and JSON
+
+# Read data from a CSV file:
+# Load the CSV file from Task 1 into a new DataFrame saved to a variable task2_employees.
+# Print it and run the tests to verify the contents.
+
+# Read data from a JSON file:
+# Create a JSON file (additional_employees.json). 
+# The file adds two new employees. 
+# Eve, who is 28, lives in Miami, and has a salary of 60000, 
+# and Frank, who is 40, lives in Seattle, and has a salary of 95000. 
+# Use these exact values, with columns Name, Age, City, Salary — the tests compare the combined result exactly.
+# Load this JSON file into a new DataFrame and assign it to the variable json_employees.
+# Print the DataFrame to verify it loaded correctly and run the tests.
+
+# Combine DataFrames:
+# Combine the data from the JSON file into the DataFrame loaded from the CSV file 
+# and save it in the variable more_employees. 
+# When you combine them, reset the index so the rows are numbered 0-4 
+# (for example, pass ignore_index=True to pd.concat).
+# Print the combined Dataframe and run the tests.
+
+
+# Read data from a CSV file:
+task2_employees = pd.read_csv("employees.csv")
+print(task2_employees)
+
+# Read data from a JSON file:
+json_employees = pd.read_json("additional_employees.json")
+print(json_employees)
+
+# Combine DataFrames:
+more_employees = pd.concat([task2_employees, json_employees], ignore_index=True)
+print(more_employees)
+
+
+
+
+
+
