@@ -124,3 +124,71 @@ print(employee_shape)
 more_employees.info()
 
 
+# Task 4: Data Cleaning
+
+# Create a DataFrame from dirty_data.csv file and assign it to the variable dirty_data.
+# Print it and run the tests.
+
+# Create a copy of the dirty data in the variable clean_data (use the copy() method). 
+# You will use data cleaning methods to update clean_data.
+# Remove any duplicate rows from the DataFrame
+# Print it and run the tests.
+
+# Convert Age to numeric and handle missing values
+# Print it and run the tests.
+
+# Convert Salary to numeric and replace known placeholders (unknown, n/a) with NaN
+# print it and run the tests.
+
+# Fill missing numeric values (use fillna).  Fill Age with the mean and Salary with the median
+# Print it and run the tests
+
+# Convert Hire Date to datetime.  
+# The dates are stored in more than one format, so use a method that handles mixed formats 
+# (for example, pd.to_datetime(..., format='mixed')).
+# Print it and run the tests
+
+# Strip extra whitespace and standardize Name and Department as uppercase
+# Print it and run the tests
+
+
+# Create a DataFrame from dirty_data.csv file
+dirty_data = pd.read_csv("dirty_data.csv")
+print(dirty_data)
+
+# Copy to clean_data and remove duplicate rows
+clean_data = dirty_data.copy()
+clean_data = clean_data.drop_duplicates()
+print(clean_data)
+
+# Convert Age to numeric and handle missing values
+clean_data["Age"] = pd.to_numeric(clean_data["Age"], errors="coerce")
+print(clean_data)
+
+# Convert Salary to numeric and replace known placeholders
+clean_data["Salary"] = clean_data["Salary"].replace(["unknown", "n/a"], float("nan"))
+clean_data["Salary"] = pd.to_numeric(clean_data["Salary"], errors="coerce")
+print(clean_data)
+
+# Fill missing numeric values
+# missing Age values with the mean
+mean_age = clean_data["Age"].mean()
+clean_data["Age"] = clean_data["Age"].fillna(mean_age)
+# missing Salary values with the median
+median_salary = clean_data["Salary"].median()
+clean_data["Salary"] = clean_data["Salary"].fillna(median_salary)
+print(clean_data)
+
+# Convert Hire Date to datetime
+clean_data["Hire Date"] = pd.to_datetime(clean_data["Hire Date"], format="mixed", errors="coerce")
+print(clean_data)
+
+# Strip extra whitespace, standardize uppercase
+clean_data["Name"] = clean_data["Name"].str.strip().str.upper()
+clean_data["Department"] = (clean_data["Department"].str.strip().str.upper())
+print(clean_data)
+
+
+
+
+
