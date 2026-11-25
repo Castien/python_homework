@@ -1,0 +1,28 @@
+My Challenges:
+
+VS claimed I never installed Selenium, but pip was showing it was complete.
+Threw error: ModuleNotFoundError: No module named 'selenium'
+I had to rerun the venv environment and run the pip install again to fix it.
+
+For Task 4, I ran get_books.py over and over, it wasn't creating the JSON and CSV file.
+I didn't realize my driver.quit() was in the wrong place. Moved it below the save functions.
+
+Reading the source page elements was a struggle. 
+Even being familiar with HTML and CSS, it's still a lot of small print text and tiny arrows.
+
+For Task 6, URL provided in the assignment did not contain the vulnerability list
+It links to a separate documentation page. I was looking for a list on the original page, so I wasted a lot of time going over the sourcecode.
+Located the 2025 list at: https://top10.owasp.org/2025/
+
+I attempted to catch NoSuchElementException, but Python didn't recognize the exception name and threw a NameError.
+Fixed by importing the exception: from selenium.common.exceptions import NoSuchElementException
+
+For Task 6, my initial XPath searched in the wrong location. 
+The first attempt searched for the ordered list (ol) as a sibling of the parent <article> element.
+It was actually a sibling of the heading (h3).
+It threw the NoSuchElementException. I fixed the XPATH to h3.
+
+I was trying to extract the data using the wrong HTML structure.
+I inspected the page and found that the vulnerability list was under the heading: <h3 id="top-102025-list">Top 10:2025 List</h3>
+The actual vulnerability entries were inside the ordered list.
+I had to use the heading ID to locate the correct section, then extracted its links.

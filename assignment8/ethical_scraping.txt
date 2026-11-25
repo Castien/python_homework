@@ -1,0 +1,28 @@
+
+
+Which sections of the website are restricted for crawling?
+
+Wikipedia restricts crawlers from accessing:
+/w/
+/api/
+/trap/
+pages including /wiki/Special: and it's variants
+certain discussion areas:
+    articles nominated for deletion
+    copyright discussions
+    spam-related pages
+
+
+Are there specific rules for certain user agents?
+
+MJ12bot - Blocked from accessing the website
+SemrushBot - delay of five seconds between requests
+The rest follow the general rules in robots.txt.
+
+
+Reflect on why websites use robots.txt and write 2-3 sentences explaining its purpose and how it promotes ethical scraping.
+
+Websites use robots.txt to communicate which parts of their websites automated crawlers should or should not access. 
+It limits unnecessary traffic, protects server resources, and prevents bots from repeatedly requesting pages that have nothing to use.
+It promotes ethical scraping by providing clear rules and guidelines for access, to avoid flooding websites with excessive requests.
+Responsible web-scrapers should only collect information that is relevant and necessary, and end sessions appropriately.
